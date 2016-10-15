@@ -64,7 +64,7 @@ export default {
 		},
 		selectMusic(idx) {
 			data.music = JSON.parse(JSON.stringify(this.list[idx]));
-			this.$route.router.go('stage');
+			this.$route.router.go('game');
 		},
 	},
 	watch: {

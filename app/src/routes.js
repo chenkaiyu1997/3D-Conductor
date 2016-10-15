@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
 import MusicList from './components/MusicList'
-import Stage from './components/Stage'
+import Game from './components/Game'
 
 export default {
 	'/': {
 		component: MusicList,
 	},
-	'/stage': {
-		component: Stage,
+	'/game': {
+		component: Game,
 	},
 }

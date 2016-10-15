@@ -1,5 +1,7 @@
 <template>
 
+<stage></stage>
+
 <rhythm :music="musicUrl" :control-data="controlData" @update-score="onUpdateScore" @update-countdown="onUpdateCountdown" @update-bar="onUpdateBar" @start="onStart" @end="onEnd"></rhythm>
 
 </template>
@@ -8,10 +10,12 @@
 import config from '../../../config.json';
 import data from '../../data';
 
+import Stage from './Stage';
 import Rhythm from './Rhythm';
 
 export default {
 	components: {
+		Stage,
 		Rhythm,
 	},
 	data() {
