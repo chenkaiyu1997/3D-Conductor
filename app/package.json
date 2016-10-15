@@ -1,0 +1,13 @@
+{
+  "name": "orchestra",
+  "version": "0.0.0",
+  "description": "Orchestra",
+  "main": "electron.js",
+  "dependencies": {
+    "vue": "^1.0.28",
+    "vue-electron": "^1.0.0",
+    "vue-router": "^0.7.13"
+  },
+  "devDependencies": {},
+  "author": "SEIAROTg <seiarotg@gmail.com>"
+}
