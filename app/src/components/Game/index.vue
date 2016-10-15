@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import config from '../../../config.json';
-import data from '../../data';
+const config = require('../../../config.json');
+const data = require('../../data');
 
 import Stage from './Stage';
 import Rhythm from './Rhythm';

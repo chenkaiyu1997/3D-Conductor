@@ -36,8 +36,8 @@
 
 <script>
 
-import config from '../../config.json';
-import data from '../data';
+const config = require('../../config.json');
+const data = require('../data');
 
 export default {
 	data() {
