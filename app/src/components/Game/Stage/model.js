@@ -1,3 +1,4 @@
+const co = require('co');
 
 var renderer, stats;
 var width, height, controls;
@@ -21,10 +22,8 @@ const pathPrefix = path.join('file://', path.resolve('app/model'), '/');
 function initThree(){
     // TODO
     const canvas = document.getElementById('canvas-frame');
-    width = canvas.clientWidth - 20;
-    height = canvas.clientHeight - 20;
-    console.log(width, height);
-    debugger;
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
     //alert(height);
     renderer = new THREE.WebGLRenderer();
     renderer.setSize( width, height);
@@ -242,56 +241,56 @@ var onError = function ( xhr ) {
 
 };
 
-function initObject(){
-    initPeople();
-    initHuanjing();
+const initObject = co.wrap(function*(){
+    yield initPeople();
+    yield initHuanjing();
     initArrows();
-}
+});
 
 function initPeople(){
-    var mtlLoader = new THREE.MTLLoader();
-    mtlLoader.setPath(pathPrefix);
-    mtlLoader.load('output013.mtl', function(materials){
-        materials.preload();
-        //alert(materials);
-        var objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.setPath(pathPrefix);
-        objLoader.load('output013.obj',function(object){
-            //alert(object);
-            object.position.y = 0;
-            object.position.z = 0;
-            object.position.x = 0;
-            scene.add(object);
-            renderer.render(scene, camera);
-
-
+    return new Promise((resolve, reject) => {
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.setPath(pathPrefix);
+        mtlLoader.load('output013.mtl', function(materials){
+            materials.preload();
+            //alert(materials);
+            var objLoader = new THREE.OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.setPath(pathPrefix);
+            objLoader.load('output013.obj',function(object){
+                //alert(object);
+                object.position.y = 0;
+                object.position.z = 0;
+                object.position.x = 0;
+                scene.add(object);
+                renderer.render(scene, camera);
+                resolve();
+            }, onProgress, onError);
         }, onProgress, onError);
-    }, onProgress, onError);
-
-
+    });
 }
 
 function initHuanjing(){
-    var mtlLoader = new THREE.MTLLoader();
-    mtlLoader.setPath(pathPrefix);
-    mtlLoader.load('zhihui+huanjing.mtl', function(materials){
-        materials.preload();
-        //alert(materials);
-        var objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.setPath(pathPrefix);
-        objLoader.load('zhihui+huanjing.obj',function(object){
-            //alert(object);
-            object.position.y = 0;
-            object.position.z = 0;
-            object.position.x = 0;
-            scene.add(object);
-            renderer.render(scene, camera);
-
-
+    return new Promise((resolve, reject) => {
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.setPath(pathPrefix);
+        mtlLoader.load('zhihui+huanjing.mtl', function(materials){
+            materials.preload();
+            //alert(materials);
+            var objLoader = new THREE.OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.setPath(pathPrefix);
+            objLoader.load('zhihui+huanjing.obj',function(object){
+                //alert(object);
+                object.position.y = 0;
+                object.position.z = 0;
+                object.position.x = 0;
+                scene.add(object);
+                renderer.render(scene, camera);
+                resolve();
+            }, onProgress, onError);
         }, onProgress, onError);
-    }, onProgress, onError);
+    });
 }
 
 function initArrows(){
@@ -401,8 +400,7 @@ module.exports = function startThree(){
     initCamera();
     initScene();
     initLight();
-    initObject();
-
+    const promise = initObject();
 
     initControls();
     requestAnimationFrame(animate);
@@ -413,6 +411,7 @@ module.exports = function startThree(){
     renderer.gammaOutput = true;
     renderer.render(scene, camera);
     document.onkeyup = keyUp;
+    return promise;
 }
 
 function keyUp(e) {

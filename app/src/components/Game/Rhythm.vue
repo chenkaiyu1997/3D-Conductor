@@ -1,10 +1,10 @@
 <template>
-	<canvas v-el:canvas></canvas>
-	<canvas v-el:display-canvas-left></canvas>
-	<canvas v-el:display-canvas-right></canvas>
-	<audio v-el:music></audio>
+	<canvas v-el:display-canvas-right class="right-hand"></canvas>
+	<canvas v-el:display-canvas-left class="left-hand"></canvas>
 
 	<div style="display: none">
+		<audio v-el:music></audio>
+		<canvas v-el:canvas width="800" height="800"></canvas>
 		<canvas v-el:canvas2></canvas>
 		<canvas v-el:canvas3></canvas>
 		<canvas v-el:canvas4></canvas>
@@ -250,7 +250,7 @@ function PaintCanvas() {
 			canvas3.width = X[num];
 			canvas3.height = Y[num];
 			ctx3.drawImage(img[num], 0, 0, X[num], Y[num]);
-			if(posin > count) {
+			if(posin >= count) {
 				ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
 				ctx.closePath();
 				self.$dispatch('end');
@@ -302,7 +302,7 @@ function PaintCanvas() {
 			displayCTXRight.beginPath();
 			displayCTXRight.fillStyle = "#FF0000";	
 		
-			displayCTXRight.arc(displayCTXRight.canvas.width * normalized[0],displayCTXRight.canvas.height * (1 - normalized[1]),20,0,2 * Math.PI);
+			displayCTXRight.arc(displayCTXRight.canvas.width * normalized[0],displayCTXRight.canvas.height * (1 - normalized[1]),5,0,2 * Math.PI);
 			displayCTXRight.fill();
 
 			if(flag) {
@@ -317,8 +317,8 @@ function PaintCanvas() {
 		if(lefthand != null) {
 			handPosition = lefthand.palmPosition;
 			normalized = frame.interactionBox.normalizePoint(handPosition);
-			normalized[0] *= 1.25;
-			normalized[1] *= 1.25;
+			normalized[0] *= 2;
+			normalized[1] *= 2;
 			if (normalized[0] > 1) normalized[0] = 1;
 			if (normalized[0] < 0) normalized[0] = 0;
 			if (normalized[1] > 1) normalized[1] = 1;
@@ -326,8 +326,8 @@ function PaintCanvas() {
 			displayCTXLeft.clearRect(0,0,displayCTXLeft.canvas.width,displayCTXLeft.canvas.height);
 			displayCTXLeft.closePath();
 			displayCTXLeft.beginPath();
-			displayCTXLeft.fillStyle = "#00FF00";	
-			displayCTXLeft.arc(displayCTXLeft.canvas.width * normalized[0],displayCTXLeft.canvas.height * (1 - normalized[1]),20,0,2 * Math.PI);
+			displayCTXLeft.fillStyle = "#00FF00";
+			displayCTXLeft.arc(displayCTXLeft.canvas.width * normalized[0],displayCTXLeft.canvas.height * (1 - normalized[1]),5,0,2 * Math.PI);
 			displayCTXLeft.fill();
 			lefthandDir = lefthand.palmNormal[1] < 0 ? -1 : 1;
 		}

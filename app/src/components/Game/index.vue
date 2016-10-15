@@ -1,9 +1,18 @@
 <template>
+<div class="game-container">
+	<stage class="stage" @loaded="onLoaded"></stage>
 
-<stage></stage>
+	<rhythm :music="musicUrl" :control-data="controlData" @update-score="onUpdateScore" @update-countdown="onUpdateCountdown" @update-bar="onUpdateBar" @start="onStart" @end="onEnd"></rhythm>
 
-<rhythm :music="musicUrl" :control-data="controlData" @update-score="onUpdateScore" @update-countdown="onUpdateCountdown" @update-bar="onUpdateBar" @start="onStart" @end="onEnd"></rhythm>
-
+	<div class="info">
+		<dl>
+			<dt>Score:</dt>
+			<dd>{{score}} {{level}}</dd>
+			<dt>Next Bar:</dt>
+			<dd>{{nextBar.rhythm}}</dd>
+		</dl>
+	</div>
+</div>
 </template>
 
 <script>
@@ -23,9 +32,16 @@ export default {
 			music: data.music,
 			musicUrl: '',
 			controlData: [],
+			score: 0,
+			level: '',
+			started: false,
+			nextBar: {},
 		};
 	},
 	methods: {
+		onLoaded() {
+			this.$broadcast('init');
+		},
 		loadControl() {
 			return fetch(`${config.server}/music/${this.music.id}/control.json`, {
 				method: 'GET',
@@ -37,16 +53,17 @@ export default {
 			})
 		},
 		onUpdateScore(score, level) {
-			console.log('updateScore', score, level);
+			this.score = score;
+			this.level = level;
 		},
 		onUpdateCountdown(countdown) {
-			console.log('countdown', countdown);
+			this.countdown = countdown;
 		},
 		onUpdateBar(bar) {
-			console.log('bar', bar);
+			this.nextBar = bar;
 		},
 		onStart() {
-			console.log('start');
+			this.started = true;
 		},
 		onEnd() {
 			console.log('end');
@@ -62,14 +79,49 @@ export default {
 		},
 		activate() {
 			this.musicUrl = `${config.server}/music/${this.music.id}/music.mp3`;
-			this.loadControl()
-			.then(() => {
-				this.$broadcast('init');
-			});
+			this.loadControl();
 		},
 	},
 }
 </script>
 
 <style>
+
+.game-container {
+	float: left;
+}
+
+.stage {
+	
+}
+
+.left-hand {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 950px;
+	height: 720px;
+	z-index: 5;
+}
+
+.right-hand {
+	position: absolute;
+	left: 950px;
+	top: 500px;
+	width: 330px;
+	height: 220px;
+	border: 1px solid #000;
+	box-sizing: border-box;
+}
+
+.info {
+	position: absolute;
+	left: 950px;
+	top: 0;
+	width: 330px;
+	height: 500px;
+	border: 1px solid #000;
+	box-sizing: border-box;
+}
+
 </style>

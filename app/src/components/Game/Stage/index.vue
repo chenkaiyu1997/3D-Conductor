@@ -17,7 +17,10 @@ const startThree = require('./model');
 
 export default {
 	ready() {
-		startThree();
+		startThree()
+		.then(() => {
+			this.$dispatch('loaded');
+		});
 	},
 };
 
@@ -25,7 +28,7 @@ export default {
 
 <style>
 #canvas-frame {
-	width: 1000px;
-	height: 800px;
+	width: 1280px;
+	height: 720px;
 }
 </style>
