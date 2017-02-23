@@ -3,7 +3,7 @@
 ## OverView
 3D-Conductor is created in *HackxFDU 2016* hackathon by team *FingerWizards*.Team members are Daizong Ding, Fan Jiang, Ke Chen, Yihan Dong, and Kaiyu Chen.
   
-3D-Conductor is a Leep Motion game, where players are put in a 3D-modeled orchestra to act as a conductor. Players use hand gestures up and down to control the moving-in and moving-out of musicians, and the rhythm of the music.
+3D-Conductor is a Leap Motion game, where players are put in a 3D-modeled orchestra to act as a conductor. Players use hand gestures up and down to control the moving-in and moving-out of musicians, and the rhythm of the music.
   
 ## Technics
 #### Hardware
