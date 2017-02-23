@@ -16,10 +16,10 @@
 * Babel loader
 
 #### 3D
-* Three.js grafics engine
+* Three.js graphics engine
 * Blender 3D model software
 
-#### algorithm
+#### Algorithm
 * Editing distance computation algorithm for simularity measuring
 
 ## Build Setup
